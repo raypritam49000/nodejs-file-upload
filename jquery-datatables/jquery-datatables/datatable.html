@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Datatable</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.11.5/api/sum().js"></script>
+
+</head>
+
+<body style="padding: 100px;">
+    <table id="table_id" class="display">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>English</th>
+                <th>Maths</th>
+                <th>Science</th>
+                <th>IT</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tfoot>
+    </table>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var dataArray = [
+            { "#": 1, "Name": "Airi Satou", "English": 1035, "Maths": 47, "Science": 50, "IT": 45 },
+            { "#": 2, "Name": "Angelica Ramos", "English": 46, "Maths": 48, "Science": 45, "IT": 50 },
+            { "#": 3, "Name": "Ashton Cox", "English": 36, "Maths": 38, "Science": 40, "IT": 50 },
+            { "#": 4, "Name": "Bradley Greer", "English": 35, "Maths": 47, "Science": 50, "IT": 45 },
+            { "#": 5, "Name": "Brenden Wagner", "English": 29, "Maths": 40, "Science": 38, "IT": 35 },
+            { "#": 6, "Name": "Brielle Williamson", "English": 46, "Maths": 48, "Science": 45, "IT": 50 },
+            { "#": 7, "Name": "Bruno Nash", "English": 28, "Maths": 33, "Science": 30, "IT": 39 },
+            { "#": 8, "Name": "Caesar Vance", "English": 35, "Maths": 47, "Science": 50, "IT": 45 },
+            { "#": 9, "Name": "Cara Stevens", "English": 29, "Maths": 40, "Science": 38, "IT": 35 },
+            { "#": 10, "Name": "Cedric Kelly", "English": 46, "Maths": 48, "Science": 45, "IT": 50 },
+            { "#": 11, "Name": "Dai Rios", "English": 36, "Maths": 38, "Science": 40, "IT": 50 },
+            { "#": 12, "Name": "Fiona Green", "English": 36, "Maths": 38, "Science": 40, "IT": 50 },
+            { "#": 13, "Name": "Gavin Cortez", "English": 35, "Maths": 47, "Science": 50, "IT": 45 },
+            { "#": 14, "Name": "Airi Satou", "English": 1035, "Maths": 47, "Science": 50, "IT": 45 },
+            { "#": 15, "Name": "Angelica Ramos", "English": 46, "Maths": 48, "Science": 45, "IT": 50 },
+            { "#": 16, "Name": "Ashton Cox", "English": 36, "Maths": 38, "Science": 40, "IT": 50 },
+            { "#": 17, "Name": "Bradley Greer", "English": 35, "Maths": 47, "Science": 50, "IT": 45 },
+            { "#": 18, "Name": "Brenden Wagner", "English": 29, "Maths": 40, "Science": 38, "IT": 35 },
+            { "#": 19, "Name": "Brielle Williamson", "English": 46, "Maths": 48, "Science": 45, "IT": 50 },
+            { "#": 20, "Name": "Bruno Nash", "English": 28, "Maths": 33, "Science": 30, "IT": 39 },
+            { "#": 21, "Name": "Caesar Vance", "English": 35, "Maths": 47, "Science": 50, "IT": 45 },
+            { "#": 22, "Name": "Cara Stevens", "English": 29, "Maths": 40, "Science": 38, "IT": 35 },
+            { "#": 23, "Name": "Cedric Kelly", "English": 46, "Maths": 48, "Science": 45, "IT": 50 },
+            { "#": 24, "Name": "Dai Rios", "English": 36, "Maths": 38, "Science": 40, "IT": 50 },
+            { "#": 25, "Name": "Fiona Green", "English": 36, "Maths": 38, "Science": 40, "IT": 50 },
+            { "#": 26, "Name": "Gavin Cortez", "English": 35, "Maths": 47, "Science": 50, "IT": 45 }
+        ];
+
+
+
+        $('#table_id').DataTable({
+            data: dataArray,
+            columns: [
+                { data: '#' },
+                { data: 'Name' },
+                { data: 'English' },
+                { data: 'Maths' },
+                { data: 'Science' },
+                { data: 'IT' }
+            ],
+            drawCallback: function () {
+                var api = this.api();
+                var sum = 0;
+                var formated = 0;
+                //to show first th
+                // $(api.column(0).footer()).html('Total');
+                const totalCount = api.column(0, { page: 'current' }).data().length;
+                $(api.column(0).footer()).html('Total Count: ' + totalCount);
+
+                console.log("@@@@ totalCount ::: ",totalCount);
+                
+                for (var i = 2; i < dataArray.length; i++) {
+                    sum = api.column(i, { page: 'current' }).data().sum();
+                    //to format this sum
+                    formated = parseFloat(sum).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                    $(api.column(i).footer()).html('Sum : $' + formated);
+                }
+
+            }
+        });
+    });
+</script>
+
+</html>
